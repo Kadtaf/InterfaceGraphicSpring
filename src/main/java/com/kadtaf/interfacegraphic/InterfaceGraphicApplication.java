@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class InterfaceGraphicApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(InterfaceGraphicApplication.class, args);
+
     }
 
 }
