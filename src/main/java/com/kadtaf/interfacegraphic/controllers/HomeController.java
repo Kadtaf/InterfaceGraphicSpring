@@ -1,18 +1,31 @@
 package com.kadtaf.interfacegraphic.controllers;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-@Controller
+import com.kadtaf.interfacegraphic.modele.Contact;
+import com.kadtaf.interfacegraphic.modele.User;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
+@RestController
 public class HomeController {
+
+    ConcurrentMap<String, User> users = new ConcurrentHashMap<>();
 
     @GetMapping("/")
     public String accueil(Model model) {
         model.addAttribute("message", "Bonjour, c'est une interface graphique");
         return "accueil";
+    }
+
+    @GetMapping("/list")
+    public List<User> getAllUsers() {
+        return new ArrayList<User>(users.values());
+
     }
 
     @PostMapping("/traiter-formulaire")
@@ -24,5 +37,18 @@ public class HomeController {
         model.addAttribute("nom", nom);
         model.addAttribute("email", email);
         return "confirmation";
+    }
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable String id) {
+        return users.get(id);
+
+    }
+
+    @PostMapping("/")
+    public User addUser(@RequestBody User user) {
+        users.put(user.getName(), user);
+        return user;
+
     }
 }
